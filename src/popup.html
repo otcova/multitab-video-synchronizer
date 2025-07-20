@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reference Translator</title>
+    <script type="module" src="popup.js" defer async></script>
+    <style>
+        body {
+            width: 300px;
+            background-color: #fff;
+            color: #111;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            margin-left: 10px;
+            margin-right: 10px;
+            /* margin-bottom: 30px; */
+
+            font-size: 16px;
+        }
+
+        #title-row {
+            width: 100%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            gap: 10px;
+        }
+
+        #rules {
+            width: 100%;
+            max-height: 400px;
+            overflow-y: auto;
+            overflow-x: auto;
+            padding: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            flex-direction: column;
+
+            border-top: 1px solid rgba(29, 127, 156, 0.61);
+            border-bottom: 1px solid rgba(29, 127, 156, 0.61);
+        }
+
+        table {
+            width: 90%;
+            row-gap: 30px;
+            column-gap: 30px;
+        }
+
+        tr {
+            background-color: #fff;
+            transition: all 200ms;
+        }
+
+        th {
+            font-weight: normal;
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th:nth-child(3) {
+            font-weight: thin;
+            font: 10px;
+            color: #222;
+            cursor: pointer;
+            user-select: none;
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+            transition: all 200ms;
+        }
+
+        th:nth-child(3):hover {
+            font-weight: bold;
+            color: #fff;
+        }
+
+        tr:has(th:nth-child(3):hover) {
+            background-color: #ff7575;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+
+        .item {
+            /* width: 100%; */
+
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            gap: 10px;
+            padding: 5px;
+        }
+
+        #new-rule {
+            margin: 10px;
+            margin-top: 20px;
+            width: 100%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            gap: 10px;
+        }
+
+        h1 {
+            font-size: 20px;
+            padding: 5px;
+            margin: 5px;
+            text-align: left;
+            flex-shrink: 1;
+        }
+
+
+
+        /* https://uiverse.io/bandirevanth/wonderful-dog-56 */
+        /* https://uiverse.io/Nawsome/empty-snail-69 */
+
+        /* Switch starts here */
+        .rocker {
+            flex-shrink: 0;
+            display: inline-block;
+            position: relative;
+            /*
+  SIZE OF SWITCH
+  ==============
+  All sizes are in em - therefore
+  changing the font-size here
+  will change the size of the switch.
+  See .rocker-small below as example.
+  */
+            font-size: 2em;
+            font-weight: bold;
+            text-align: center;
+            text-transform: uppercase;
+            color: #888;
+            width: 7em;
+            height: 4em;
+            overflow: hidden;
+            border-bottom: 0.5em solid #eee;
+        }
+
+        .rocker-small {
+            font-size: 0.75em;
+            /* Sizes the switch */
+            margin: 1em;
+            box-sizing: border-box;
+        }
+
+        .rocker::before {
+            content: "";
+            position: absolute;
+            top: 0.6em;
+            left: 1px;
+            right: 0;
+            bottom: 0;
+            background-color: #999;
+            border: 0.5em solid #eee;
+            border-bottom: 0;
+        }
+
+        .rocker input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .switch-left,
+        .switch-right {
+            cursor: pointer;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 2.5em;
+            width: 3em;
+            transition: 0.2s;
+            user-select: none;
+        }
+
+        .switch-left {
+            height: 2.4em;
+            width: 2.75em;
+            left: 0.85em;
+            bottom: 0.4em;
+            background-color: #ddd;
+            transform: rotate(15deg) skewX(15deg);
+        }
+
+        .switch-right {
+            right: 0.5em;
+            bottom: 0;
+            color: #fff;
+            background-color: #0084d0;
+        }
+
+        .switch-left::before,
+        .switch-right::before {
+            content: "";
+            position: absolute;
+            width: 0.4em;
+            height: 2.45em;
+            bottom: -0.45em;
+            background-color: #ccc;
+            transform: skewY(-65deg);
+        }
+
+        .switch-left::before {
+            left: -0.4em;
+        }
+
+        .switch-right::before {
+            right: -0.375em;
+            background-color: transparent;
+            transform: skewY(65deg);
+        }
+
+        input:checked+.switch-left {
+            background-color: #d15353;
+            color: #fff;
+            bottom: 0px;
+            left: 0.5em;
+            height: 2.5em;
+            width: 3em;
+            transform: rotate(0deg) skewX(0deg);
+        }
+
+        input:checked+.switch-left::before {
+            background-color: transparent;
+            width: 3.0833em;
+        }
+
+        input:checked+.switch-left+.switch-right {
+            background-color: #ddd;
+            color: #888;
+            bottom: 0.4em;
+            right: 0.8em;
+            height: 2.4em;
+            width: 2.75em;
+            transform: rotate(-15deg) skewX(-15deg);
+        }
+
+        input:checked+.switch-left+.switch-right::before {
+            background-color: #ccc;
+        }
+
+        /* Keyboard Users */
+        input:focus+.switch-left {
+            color: #888;
+        }
+
+        input:checked:focus+.switch-left {
+            color: #fff;
+        }
+
+        input:focus+.switch-left+.switch-right {
+            color: #fff;
+        }
+
+        input:checked:focus+.switch-left+.switch-right {
+            color: #888;
+        }
+
+
+        /* https://uiverse.io/ElsayedShamsEldeen/heavy-quail-34 */
+
+        .container {
+            display: flex;
+            margin-top: 10px;
+            flex-direction: column;
+            gap: 7px;
+            position: relative;
+            color: white;
+        }
+
+        .container .label {
+            font-size: 15px;
+            padding-left: 10px;
+            position: absolute;
+            top: 13px;
+            transition: 0.3s;
+            pointer-events: none;
+        }
+
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            position: relative;
+            color: #000;
+        }
+
+        .container .label {
+            font-size: 15px;
+            padding-left: 10px;
+            position: absolute;
+            top: 13px;
+            transition: 0.3s;
+            pointer-events: none;
+        }
+
+        .input {
+            box-sizing: border-box;
+            width: 200px;
+            height: 45px;
+            border: none;
+            outline: none;
+            padding: 0px 7px;
+            border-radius: 6px;
+            color: #000;
+            font-size: 15px;
+            background-color: transparent;
+            box-shadow: 3px 3px 10px rgba(200, 200, 200, 1),
+                -1px -1px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        .input:focus {
+            border: 3px solid transparent;
+            color: #000;
+            box-shadow: 3px 3px 10px rgba(200, 200, 200, 1),
+                -1px -1px 6px rgba(0, 0, 0, 0.4), inset 3px 3px 10px rgba(200, 200, 200, 1),
+                inset -1px -1px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        /* .container .input:valid~.label,
+        .container .input:focus~.label { */
+        .container .label {
+            transition: 0.3s;
+            padding-left: 2px;
+            transform: translate(15px, -30px);
+            font-weight: bold;
+        }
+
+        .container .input:valid,
+        .container .input:focus {
+            box-shadow: 3px 3px 10px rgba(200, 200, 200, 1),
+                -1px -1px 6px rgba(0, 0, 0, 0.4), inset 3px 3px 10px rgba(200, 200, 200 1),
+                inset -1px -1px 6px rgba(0, 0, 0, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="title-row">
+        <h1>Sync Player</h1>
+        <label class="rocker rocker-small">
+            <input type="checkbox" id="activation-checkbox">
+            <span class="switch-left">Off</span>
+            <span class="switch-right">On</span>
+        </label>
+    </div>
+    <div id="rules">
+        <table>
+            <tbody id="rules-table">
+            </tbody>
+        </table>
+    </div>
+    <div id="new-rule">
+        <div class="container">
+            <input id="input-offset" class="input" name="text" type="number" value="0" required="" autocomplete="off"
+                step="any" />
+            <label class="label">Offset Seconds</label>
+        </div>
+    </div>
+</body>
+
+</html>

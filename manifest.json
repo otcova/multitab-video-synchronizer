@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "Multitab Video Synchronizer",
+  "version": "1.4",
+  "background": {
+    "scripts": [
+      "src/background.js"
+    ]
+  },
+  "icons": {
+    "96": "icon.png"
+  },
+  "action": {
+    "default_icon": "icon.png",
+    "default_title": "Multitab Video Synchronizer",
+    "default_popup": "src/popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "src/tab.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "permissions": [
+    "tabs",
+    "storage"
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "otgercomas@gmail.com",
+      "update_url": "https://raw.githubusercontent.com/otcova/multitab-video-synchronizer/refs/heads/main/manifest.json"
+    }
+  }
+}
