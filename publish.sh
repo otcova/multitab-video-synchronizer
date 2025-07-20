@@ -2,8 +2,10 @@
 
 set -e
 
-VERSION="1.5" # Update this
+VERSION="1.6" # Update this
+
 echo "Publishing version $VERSION ..."
+echo "(Remember to set the version in the ./publish.sh and ./extension/maniferst.json)"
 
 # Gen keys at: https://addons.mozilla.org/en-GB/developers/addon/api/key/
 source ".firefox_data.sh"

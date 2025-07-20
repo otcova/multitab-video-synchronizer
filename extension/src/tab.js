@@ -84,48 +84,6 @@ function isPlaying() {
   return !video.paused;
 }
 
-// function getTimeBarElement() {
-//   let total = document.getElementsByClassName('jw-timesegment-bar jw-rail jw-timesegment-background jw-reset')[0];
-//   let progress = document.getElementsByClassName('jw-timesegment-bar jw-progress jw-timesegment-progress jw-reset')[0];
-//   return { total, progress };
-// }
-
-
-// function getPercentage() {
-//   let bar = getTimeBarElement();
-//   return bar.progress.clientWidth / bar.total.clientWidth;
-// }
-
-// function isPlaying() {
-//   /*
-//   let playButton = document.getElementsByClassName('jw-svg-icon jw-svg-icon-play')[0];
-//   if (!playButton)
-//     return false;
-//   let playButtonDisplay = getComputedStyle(playButton)?.display ?? "none";
-//   return playButtonDisplay == "none";*/
-//   return !document.getElementsByTagName("video")[0].paused;
-// }
-
-// function setPercentage(percentage) {
-//   let bar = getTimeBarElement();
-
-//   let x = percentage * bar.total.clientWidth;
-//   let clientX = Math.round(x + bar.total.getBoundingClientRect().left);
-
-//   let data = {
-//     bubbles: true,
-//     button: 0,
-//     buttons: 1,
-//     clientX,
-//     ctrlKey: false,
-//     type: "click",
-//     which: 1,
-//   };
-
-//   bar.total.dispatchEvent(new MouseEvent('click', data));
-//   document.getElementsByTagName("video")[0].focus();
-// }
-
 function setup() {
   if (!document.URL.includes("embed")) {
     log("dissabled at " + document.URL);
@@ -157,6 +115,7 @@ function setup() {
     isThisPrimary = 6; // Cooldown
     if (event.repeat) return;
     if (event.code == 'KeyF') return;
+    if (event.code == 'KeyM') return;
 
     if (event.code == 'KeyS') {
       send({ sync: getTime() })
