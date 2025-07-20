@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Multitab Video Synchronizer",
-  "version": "1.4",
+  "version": "1.5",
   "background": {
     "scripts": [
       "src/background.js"
@@ -34,7 +34,7 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "otgercomas@gmail.com",
-      "update_url": "https://raw.githubusercontent.com/otcova/multitab-video-synchronizer/refs/heads/main/manifest.json"
+      "update_url": "https://raw.githubusercontent.com/otcova/multitab-video-synchronizer/refs/heads/main/update.json"
     }
   }
 }

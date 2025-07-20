@@ -1,16 +1,19 @@
+#!/bin/bash
+
 set -e
 
-VERSION="1.4" # Update this
+VERSION="1.5" # Update this
+echo "Publishing version $VERSION ..."
 
+# Gen keys at: https://addons.mozilla.org/en-GB/developers/addon/api/key/
 source ".firefox_data.sh"
 
-cd extension
 web-ext sign \
-    -a="../artifacts" \
-    --channel=unlisted \
-    --api-key=$WEB_EXT_API_KEY \
-    --api-secret=$WEB_EXT_API_SECRET
-cd ..
+  --channel=unlisted \
+  -s="./extension" \
+  -a="./artifacts" \
+  --api-key="$WEB_EXT_API_KEY" \
+  --api-secret="$WEB_EXT_API_SECRET"
 
 cat > update.json <<EOF
 {
